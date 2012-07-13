@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from math import sin, cos, radians
+from random import randint
 
 def rotate_pyt(x1, y1, x2, y2, deg):
     x, y = (x2-x1), (y2-y1)
@@ -25,9 +26,12 @@ def pyt(screen, color, x1, y1, x2, y2, level):
             if evt.type == KEYDOWN:
                 if evt.key == K_ESCAPE:
                     pygame.quit()
+                if evt.key == K_s:
+                	i = randint(1,10000)
+                	pygame.image.save(screen,'%d.png'%(i))
             if evt.type == QUIT:
                 pygame.quit()
-        pygame.display.flip()
+        #pygame.display.flip()	# comment to prevent animation
     else:
         color = map(lambda x:max(0,(x-13)),color)
         x3, y3 = rotate_pyt(x1,y1,x2,y2,90)
@@ -38,11 +42,12 @@ def pyt(screen, color, x1, y1, x2, y2, level):
 
 if __name__=='__main__':
     pygame.display.init()
-    screen = pygame.display.set_mode((800,600))
+    screen = pygame.display.set_mode((1366,768))
     w, h = screen.get_width(), screen.get_height()
     level = 30
     for i in range(level):
-        pyt(screen,[128,255,255], *map(int, [.55*w, h, .45*w, h, i]))
+        pyt(screen,[128,255,255], *map(int, [.57*w, h, .43*w, h, i]))
+        pygame.display.flip()
         q = False
         while not q:
             for evt in pygame.event.get():
@@ -51,6 +56,9 @@ if __name__=='__main__':
                         pygame.quit()
                     else:
                         q = True
+                    if evt.key == K_s:
+                	    i = randint(1,10000)
+                	    pygame.image.save(screen,'%d.png'%(i))
                 if evt.type == QUIT:
                     pygame.quit()
     q = False

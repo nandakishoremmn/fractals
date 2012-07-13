@@ -5,8 +5,9 @@ Created on 12-Jul-2012
 '''
 #import turtle
 import pygame
-from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
+from pygame.locals import *
 from math import sin, cos, radians
+from random import randint
 def koch(screen, x1, y1, x2, y2, level):
     if level == 0:
         pygame.draw.line(screen, (128,128,128), (x1, y1), (x2, y2), 1)
@@ -14,6 +15,9 @@ def koch(screen, x1, y1, x2, y2, level):
             if evt.type == KEYDOWN:
                 if evt.key == K_ESCAPE:
                     pygame.quit()
+                if evt.key == K_s:
+                    i = randint(1,10000)
+               	    pygame.image.save(screen,'%d.png'%(i))
             if evt.type == QUIT:
                 pygame.quit()
     else:
@@ -33,8 +37,8 @@ def koch(screen, x1, y1, x2, y2, level):
             pygame.display.flip()
         
 if __name__=='__main__':
-    pygame.init()
-    screen = pygame.display.set_mode((800,600))
+    pygame.display.init()
+    screen = pygame.display.set_mode((1366,768),FULLSCREEN)
     w, h = screen.get_width(), screen.get_height()
     speed = 2;
     q = False
@@ -42,7 +46,7 @@ if __name__=='__main__':
         screen.fill((0,0,0))
         koch(screen, *map(int, [w, 3*(h/4), 0, 3*(h/4), i]))
         pygame.display.flip()
-        pygame.time.Clock().tick(speed)
+        #pygame.time.Clock().tick(speed)
         q = False
         while not q:
             for evt in pygame.event.get():
@@ -51,5 +55,8 @@ if __name__=='__main__':
                         pygame.quit()
                     else:
                         q = True
+                    if evt.key == K_s:
+                	i = randint(1,10000)
+                	pygame.image.save(screen,'%d.png'%(i))
                 if evt.type == QUIT:
                     pygame.quit()
